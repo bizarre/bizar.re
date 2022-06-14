@@ -1,6 +1,8 @@
 use crate::layout::DefaultLayout;
-use dioxus::prelude::*;
-use dioxus::router::{Route, Router};
+use dioxus::{
+    prelude::*,
+    router::{Route, Router},
+};
 
 use crate::pages::Index;
 

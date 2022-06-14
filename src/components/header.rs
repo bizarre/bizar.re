@@ -10,7 +10,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
         div {
             class: "w-full mt-4 flex justify-center text-white",
             h1 {
-                
+
             }
         }
     })
