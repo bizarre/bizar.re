@@ -1,18 +1,10 @@
 use proc_macro::{self, TokenStream};
 use quote::quote;
-use syn::parse::{Parse, ParseStream, Result};
-use syn::punctuated::Punctuated;
-use syn::{
-    braced, parse_macro_input, token, Attribute, AttributeArgs, DataEnum, DataUnion, Field,
-    FieldsNamed, FieldsUnnamed, Ident, ItemStatic, ItemStruct, Meta, Token,
-};
+use syn::{parse_macro_input, AttributeArgs, FieldsNamed, ItemStruct};
 
 use darling::FromMeta;
-use std::collections::HashMap;
-use std::fs::File;
-use std::path::Path;
-use toml::value::Table;
-use toml::Value;
+use std::{collections::HashMap, path::Path};
+use toml::{value::Table, Value};
 
 #[derive(Debug, FromMeta)]
 struct Arguments {

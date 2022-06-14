@@ -9,7 +9,9 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
     cx.render(rsx! {
         div {
             class: "w-full mt-4 flex justify-center text-white",
-            "{cx.props.name}"
+            h1 {
+                
+            }
         }
     })
 }
