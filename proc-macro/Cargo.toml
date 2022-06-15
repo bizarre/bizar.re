@@ -11,6 +11,7 @@ quote = "1.0.18"
 proc-macro2 = "1.0.39"
 darling = "0.14.1"
 toml = "0.5.9"
+downcast-rs = "1.2.0"
 
 [lib]
 proc-macro = true

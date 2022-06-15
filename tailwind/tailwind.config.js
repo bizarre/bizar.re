@@ -7,7 +7,10 @@ module.exports = {
   },
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {colors: {
+      "slate": "#3D3D3D",
+      "slate-dim": "#222222"
+    }},
   },
   variants: {
     extend: {},

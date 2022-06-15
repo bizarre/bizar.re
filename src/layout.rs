@@ -9,7 +9,7 @@ pub struct Props<'a> {
 pub fn DefaultLayout<'a>(cx: Scope<'a, Props<'a>>) -> Element {
     cx.render(rsx! {
         div {
-            class: "w-full mt-4 flex justify-center",
+            class: "w-full p-16 flex justify-center",
             &cx.props.children
         }
     })
