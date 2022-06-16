@@ -1,3 +1,5 @@
-mod index;
+mod engineer;
+mod photography;
 
-pub use index::page as Index;
+pub use engineer::page as EngineerPage;
+pub use photography::page as PhotographyPage;

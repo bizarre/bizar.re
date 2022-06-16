@@ -7,9 +7,19 @@ module.exports = {
   },
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {colors: {
+    extend: {
+      width: {
+        "500": "500px"
+      },
+      colors: {
       "slate": "#3D3D3D",
-      "slate-dim": "#222222"
+      "slate-dim": "#222222",
+      "moss": "#5B7860",
+      "moss-dim": "#1D261F",
+      "ice": "#556978",
+      "ice-dim": "#1B2226",
+      "dim": "#707070",
+      "dark": "#484848",
     }},
   },
   variants: {

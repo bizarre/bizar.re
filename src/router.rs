@@ -4,12 +4,15 @@ use dioxus::{
     router::{Route, Router},
 };
 
-use crate::pages::Index;
+use crate::pages::{EngineerPage, PhotographyPage};
 
 pub fn route(cx: Scope) -> Element {
     return cx.render(rsx!(Router {
         Route {
-            to: "/", DefaultLayout { Index {  } }
+            to: "/", DefaultLayout { EngineerPage {  } }
+        }
+        Route {
+            to: "/photography", DefaultLayout { PhotographyPage {  } }
         }
     }));
 }

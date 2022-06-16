@@ -13,9 +13,5 @@ pub fn page(cx: Scope) -> Element {
         ..
     } = config;
 
-    cx.render(rsx!(
-        div {
-            Header { name: name, pseudonym: pseudonym, headline: headline }
-        }
-    ))
+    cx.render(rsx!(div {}))
 }
