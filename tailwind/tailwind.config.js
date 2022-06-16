@@ -8,8 +8,12 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      gridTemplateColumns: {
+        '52': 'grid-template-columns: repeat(52, minmax(0, 1fr));'
+      },
       width: {
-        "500": "500px"
+        "500": "500px",
+        "700": "700px"
       },
       colors: {
       "slate": "#3D3D3D",
@@ -18,12 +22,16 @@ module.exports = {
       "moss-dim": "#1D261F",
       "ice": "#556978",
       "ice-dim": "#1B2226",
+      "tint": "#484848",
       "dim": "#707070",
       "dark": "#484848",
     }},
   },
   variants: {
-    extend: {},
+    extend: {
+      zIndex: ["hover"],
+      outline: ["hover"],
+    },
   },
   plugins: [],
 }

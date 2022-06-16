@@ -13,7 +13,12 @@ pub fn DefaultLayout<'a>(cx: Scope<'a, Props<'a>>) -> Element {
         div {
             class: "w-full p-16 flex justify-center",
             div {
-                Header { name: config.name, pseudonym: config.pseudonym, headline: config.headline }
+                class: "w-full flex flex-col items-center",
+                div {
+                    class: "w-500",
+                     Header { name: config.name, pseudonym: config.pseudonym, headline: config.headline }
+                }
+               
                 &cx.props.children
             }
         }

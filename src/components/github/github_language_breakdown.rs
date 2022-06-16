@@ -18,22 +18,33 @@ pub struct Props<'a> {
 #[derive(PartialEq, Props)]
 struct BlipProps {
     name: Option<String>,
+    percentage: Option<String>,
     color: Option<String>,
 }
 
+#[allow(non_snake_case)]
 fn Blip(cx: Scope<BlipProps>) -> Element {
     let name = if let Some(name) = &cx.props.name {
-        cx.render(rsx! { "{name}" })
+        if let Some(percentage) = &cx.props.percentage {
+            cx.render(rsx! { div { span { "{name} " } span { class: "text-dark block", "{percentage}" } }})
+        } else {
+            cx.render(rsx! { span { "{name}" }})
+        }
     } else {
         cx.render(rsx! { div {
-            class: "skeleton h-4 rounded"
+            div {
+                class: "skeleton h-3 w-5/6 rounded"
+            }
+            div {
+                class: "skeleton h-3 w-1/3 mt-1.5 rounded"
+            }
         } })
     };
 
     let dot = if let Some(color) = &cx.props.color {
         cx.render(rsx! {   div {
             background_color: "{color}",
-            class: "w-3 h-3 rounded-full mr-2"
+            class: "w-3 h-3 rounded-full mr-2 mt-1"
         } })
     } else {
         cx.render(rsx! {   div {
@@ -43,10 +54,10 @@ fn Blip(cx: Scope<BlipProps>) -> Element {
 
     cx.render(rsx! {
         div {
-            class: "w-1/3 mb-2 flex items-center",
+            class: "w-1/5 mb-2 flex select-none",
             dot
             label {
-                class: "w-10/12 text-sm",
+                class: "w-8/12 text-xs leading-tight",
                 name
             }
         }
@@ -80,7 +91,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
     });
 
     use_future(&cx, (languages,), |(languages,)| async move {
-        if (languages.is_none()) {
+        if languages.is_none() {
             let repo_query = format!(
             "user(login:\"{}\") {{ name: repositories(last: 30) {{ nodes {{ name isFork }} }} }}",
             &username
@@ -129,8 +140,14 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
 
                 }
                 footer {
-                    class: "flex justify-between flex-wrap text-dim",
+                    class: "flex justify-start flex-wrap text-dim",
                     Blip { }
+                    Blip {  }
+                    Blip {  }
+                    Blip {  }
+                    Blip {  }
+                    Blip {  }
+                    Blip {  }
                     Blip {  }
                     Blip {  }
                     Blip {  }
@@ -151,17 +168,18 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
 
         let sorted: BTreeMap<i64, String> = percentages
             .iter()
-            .map(|(k, v)| (v.to_owned() as i64, k.to_owned()))
+            // multiply so that close numbers when rounded don't conflict
+            .map(|(k, v)| ((v.to_owned() * 100000.0) as i64, k.to_owned()))
             .collect();
 
         return {
             cx.render(rsx! {
                 div {
                     div {
-                        class: "w-full h-4 bg-dim rounded-full mb-4 flex overflow-hidden",
+                        class: "w-full h-4 bg-dim rounded-full mb-4 flex overflow-hidden opacity-95",
                         sorted.iter().rev().map(|(_, name)| {
                             let p = percentages.get(name).unwrap();
-                            let x = format!("{:3.1}%", p.ceil());
+                            let x = format!("{:3.1}%", p);
                             let cloned = colors.clone();
                             let color = cloned.get(name);
 
@@ -171,34 +189,43 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
 
                                    return rsx!(
                                         div {
-                                            class: "h-full",
+                                            key: "{name}",
+                                            class: "h-full transition transform hover:opacity-50 cursor-pointer",
                                             width: "{x}",
                                             background_color: "{color}"
                                         }
                                     );
                             } else {
-                                return rsx!(div{});
+                                return rsx!(  div {
+                                            key: "{name}",
+                                            class: "h-full",
+                                            width: "{x}",
+                                        });
                             }
 
                          
                         })
                     }
                     footer {
-                        class: "flex justify-between flex-wrap text-dim",
+                        class: "flex justify-start flex-wrap text-dim",
                          sorted.iter().rev().map(|(_, name)| {
                             let p = percentages.get(name).unwrap();
-                            let x = format!("{} {:3.1}%", name, p);
+                            let percentage = format!("{:3.1}%", p);
                             let cloned = colors.clone();
                             let color = cloned.get(name);
-                            if let Some(color) = color {
-                                let color = color.color.clone();
-                                rsx!(
-                                    Blip { key: "{name}", name: x, color: color.unwrap_or("white".to_string()) }
-                                )
+                            if p > &0.05 {
+                                if let Some(color) = color {
+                                    let color = color.color.clone();
+                                    rsx!(
+                                        Blip { key: "{name}-blip", name: name.to_owned(), percentage: percentage, color: color.unwrap_or("white".to_string()) }
+                                    )
+                                } else {
+                                    rsx!(
+                                        Blip { key: "{name}-blip", name: name.to_owned(), color: "white".to_string() }
+                                    )
+                                }
                             } else {
-                                rsx!(
-                                    Blip { name: x }
-                                )
+                                rsx!(div{ key: "{name}-blip" })
                             }
                         })
                     }

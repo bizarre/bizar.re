@@ -19,3 +19,17 @@
         background-color: hsl(0, 0%, 5%);
     }
 }
+
+.skeleton-light {
+    animation: skeleton-loading-light 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading-light {
+    0% {
+        background-color: hsl(0, 0%, 18%);
+    }
+
+    100% {
+        background-color: hsl(0, 0%, 10%);
+    }
+}

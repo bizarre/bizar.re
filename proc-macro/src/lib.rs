@@ -40,6 +40,10 @@ pub fn inject_from_file(_arguments: TokenStream, input: TokenStream) -> TokenStr
         _ => panic!("Invalid!"),
     }
 
+    let cwd = std::env::current_dir().unwrap();
+    let file_path = cwd.join(path.clone());
+    let file_path_str = format!("{}", file_path.display());
+
     let file = File::from_file_path(path).expect("Unsupported file type.");
     let foreign_fields = file.parse(
         mapped_fields
@@ -75,5 +79,7 @@ pub fn inject_from_file(_arguments: TokenStream, input: TokenStream) -> TokenStr
         pub static instance: #ident = #ident {
             #(#constructor_fields,)*
         };
+
+        const FILE_STR: &'static str = include_str!(#file_path_str);
     })
 }

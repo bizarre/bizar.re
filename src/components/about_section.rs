@@ -25,7 +25,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
             }
             article {
                 p {
-                    class: "text-dark",
+                    class: "text-slate",
                     "{cx.props.text}"
                 }
             }
