@@ -1,0 +1,37 @@
+name: Build and Deploy
+on: [push]
+
+env:
+  WEBSITE_GITHUB_TOKEN: ${{ secrets.WEBSITE_GITHUB_TOKEN }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v2.3.1
+      - name: Write token
+        run: echo "$WEBSITE_GITHUB_TOKEN" >> .env
+      - uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: nightly
+          override: true
+          target: wasm32-unknown-unknown
+      - uses: Swatinem/rust-cache@v1
+        with:
+          key: bizarre
+      - run: wget -qO- https://github.com/thedodd/trunk/releases/download/v0.15.0/trunk-x86_64-unknown-linux-gnu.tar.gz | tar -xzf-
+      - run: wget -qO- https://github.com/WebAssembly/binaryen/releases/download/version_109/binaryen-version_109-x86_64-linux.tar.gz | tar -xzf-
+      - run: echo "./binaryen-version_109/bin" >> $GITHUB_PATH
+      - uses: jetli/wasm-bindgen-action@v0.1.0
+        with:
+          version: "0.2.80"
+      - run: ./trunk build
+      - run: touch dist/.nojekyll
+      - run: curl https://raw.githubusercontent.com/rafgraph/spa-github-pages/gh-pages/404.html -o dist/404.html
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: dist # The folder the action should deploy.
