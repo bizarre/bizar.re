@@ -13,6 +13,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
     let link_class = "transition hover:opacity-50 focus:opacity-50 text-2xl mr-2 ".to_owned();
     let mut se_class = link_class.clone() + "text-moss";
     let mut p_class = link_class.clone() + "text-ice";
+    let mut c_class = link_class.clone() + "text-sponge";
 
     if segment == "" {
         se_class = se_class.to_string() + " underline";
@@ -48,7 +49,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                     to: "/"
                     h1 {
                         class: "{se_class}",
-                        "Software Engineer."
+                        "Programmer."
                     }
                 }
 
@@ -57,6 +58,14 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                     h2 {
                         class: "{p_class}",
                      "Photographer."
+                    }
+                }
+
+                Link {
+                    to: "/cars"
+                    h2 {
+                        class: "{c_class}",
+                     "Likes Cars."
                     }
                 }
             }

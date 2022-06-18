@@ -38,6 +38,16 @@ impl ToTokens for ValueToTokens {
                     quote! { #ty { #(#fields,)* } }.to_tokens(tokens);
                 }
             }
+            Value::Array(arr) => {
+                let arr: Vec<ValueToTokens> = arr
+                    .iter()
+                    .map(|x| ValueToTokens {
+                        value: x.clone(),
+                        ty: None,
+                    })
+                    .collect();
+                quote! { &[#(#arr,)*] }.to_tokens(tokens);
+            }
             _ => {}
         }
     }

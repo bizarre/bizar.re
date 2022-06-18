@@ -6,13 +6,55 @@ use serde::Deserialize;
 use std::{
     any::Any,
     collections::{BTreeMap, HashMap},
+    panic,
 };
 
-static GITHUB_TOKEN: &'static str = dotenv!("GITHUB_TOKEN");
+static GITHUB_TOKEN: &'static str = dotenv!("WEBSITE_GITHUB_TOKEN");
 
 #[derive(PartialEq, Props)]
-pub struct Props<'a> {
+pub(crate) struct Props<'a> {
     github_username: &'a str,
+    colors: &'a UseState<Option<HashMap<String, Color>>>
+}
+
+#[derive(PartialEq, Props)]
+struct BarProps {
+    name: String,
+    width: f64,
+    color: Option<String>,
+    skeleton: Option<bool>
+}
+
+#[allow(non_snake_case)]
+fn Bar(cx: Scope<BarProps>) -> Element {
+    let hovered = use_state(&cx, || false);
+    let is_skeleton = cx.props.skeleton.unwrap_or(false);
+    let mut width_str = format!("{:3.1}%", cx.props.width);
+    let og_width = width_str.clone();
+    let color = cx.props.color.clone().unwrap_or("default".to_string());
+    let mut more_classes = "cursor-pointer hover:opacity-50 ".to_owned();
+
+    if is_skeleton { more_classes = "skeleton".to_owned(); };
+
+    if *hovered.get() && !is_skeleton {
+        width_str = if cx.props.width > 75.0 { width_str } else { "75%".to_string() };
+    } 
+
+    let hover_text = {
+        let opacity = if *hovered.get() && !is_skeleton { "opacity-100" } else { "opacity-0" };
+        rsx!{ label { class:"{opacity} transition duration-200 delay-150 text-xs pointer-events-none", "{cx.props.name} - {og_width}" } }
+    };
+
+    cx.render(rsx! { 
+        div {
+            onmouseover: move |_| { hovered.set(true)},
+            onmouseout: move |_| { hovered.set(false)},
+            width: "{width_str}",
+            class: "h-full transition-all duration-500 opacity-100 transform-gpu {more_classes} flex justify-center",
+            background_color: "{color}",
+            hover_text
+        }
+    })
 }
 
 #[derive(PartialEq, Props)]
@@ -24,37 +66,62 @@ struct BlipProps {
 
 #[allow(non_snake_case)]
 fn Blip(cx: Scope<BlipProps>) -> Element {
-    let name = if let Some(name) = &cx.props.name {
-        if let Some(percentage) = &cx.props.percentage {
-            cx.render(rsx! { div { span { "{name} " } span { class: "text-dark block", "{percentage}" } }})
+    let name = {
+        let name = &cx.props.name.clone().unwrap_or_else(|| "".to_string());
+        let percentage = &cx
+            .props
+            .percentage
+            .clone()
+            .unwrap_or_else(|| "".to_string());
+
+        let skeleton_opacity = if cx.props.name.is_some() {
+            "opacity-0"
         } else {
-            cx.render(rsx! { span { "{name}" }})
-        }
-    } else {
-        cx.render(rsx! { div {
+            "opacity-100"
+        };
+
+        let text_opacity = if cx.props.name.is_some() {
+            "opacity-100"
+        } else {
+            "opacity-0"
+        };
+
+        cx.render(rsx! { div { class: "relative",
+            div { class: "absolute {text_opacity} transition-all duration-100", span { "{name} " } span { class: "text-dark block", "{percentage}" } }
             div {
-                class: "skeleton h-3 w-5/6 rounded"
+                class: "skeleton h-3 w-5/6 rounded transition-all duration-150 {skeleton_opacity}"
             }
             div {
-                class: "skeleton h-3 w-1/3 mt-1.5 rounded"
+                class: "skeleton h-3 w-1/3 mt-1.5 rounded transition-all duration-150 {skeleton_opacity}"
             }
         } })
     };
 
-    let dot = if let Some(color) = &cx.props.color {
-        cx.render(rsx! {   div {
-            background_color: "{color}",
-            class: "w-3 h-3 rounded-full mr-2 mt-1"
-        } })
-    } else {
-        cx.render(rsx! {   div {
-            class: "w-3 h-3 rounded-full skeleton mr-2"
-        } })
+    let dot = {
+        let color = &cx.props.color.clone().unwrap_or("white".to_owned());
+        let opacity = if cx.props.color.is_some() {
+            "opacity-100"
+        } else {
+            "opacity-0"
+        };
+
+        cx.render(rsx! {
+            div {
+                class: "relative",
+                div {
+                    class: "mt-1 w-3 h-3 rounded-full mr-2 transition-all duration-1000 {opacity} absolute",
+                    background_color: "{color}",
+                }
+                div {
+                    class: "mt-1 w-3 h-3 rounded-full mr-2 skeleton"
+                }
+            }
+        })
     };
 
     cx.render(rsx! {
         div {
-            class: "w-1/5 mb-2 flex select-none",
+            class: "w-1/5 mb-2 flex select-none transition-all",
             dot
             label {
                 class: "w-8/12 text-xs leading-tight",
@@ -64,36 +131,15 @@ fn Blip(cx: Scope<BlipProps>) -> Element {
     })
 }
 
-#[derive(Deserialize, Debug, PartialEq, Clone)]
-struct Color {
-    pub color: Option<String>,
-}
-
-pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
-    let loaded = use_state(&cx, || false);
-    let colors = use_state(&cx, || None);
-    let languages = use_state(&cx, || None);
+pub(crate) fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
+    let languages = use_state(&cx, || None as Option<(HashMap<String, i64>, i64)>);
     let username = cx.props.github_username.to_owned();
-
-    use_future(&cx, (colors,), |(colors,)| async move {
-        if colors.is_none() {
-            let colors_map = reqwest::get(
-                "https://raw.githubusercontent.com/ozh/github-colors/master/colors.json",
-            )
-            .await
-            .unwrap()
-            .json::<HashMap<String, Color>>()
-            .await
-            .unwrap();
-
-            colors.set(Some(colors_map));
-        }
-    });
+    let colors = cx.props.colors;
 
     use_future(&cx, (languages,), |(languages,)| async move {
         if languages.is_none() {
             let repo_query = format!(
-            "user(login:\"{}\") {{ name: repositories(last: 30) {{ nodes {{ name isFork }} }} }}",
+            "user(login:\"{}\") {{ repos: repositories(last: 100, isFork: false, privacy: PUBLIC, ownerAffiliations: OWNER, isLocked: false) {{ nodes {{ name, isArchived }} }} }}",
             &username
         )
             .replace("\n", "")
@@ -122,115 +168,99 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
         }
     });
 
-    use_future(
-        &cx,
-        (languages, colors, loaded),
-        |(languages, colors, loaded)| async move {
-            if languages.is_some() && colors.is_some() && !&loaded {
-                loaded.set(true);
-            }
-        },
-    );
+    let contents = {
+        let languages = languages.get();
+        let colors = colors.get();
+        if let (Some(colors), Some(languages)) = (colors, languages) {
+            let (languages, total_bytes) = languages;
+            let mut percentages: HashMap<String, f64> = HashMap::new();
 
-    if !**loaded {
-        return cx.render(rsx! {
+            for (language, bytes) in languages {
+                let total_bytes = total_bytes.to_owned() as f64;
+                let bytes = bytes.to_owned() as f64;
+                percentages.insert(language.to_owned(), 100.0 / total_bytes * bytes);
+            }
+
+            let sorted = percentages
+                .iter()
+                // multiply so that close numbers when rounded don't conflict
+                .map(|(k, v)| ((v.to_owned() * 100000.0) as i64, k.to_owned()))
+                .collect::<BTreeMap<i64, String>>();
+
+            let cloned = sorted.clone();
+            let cloned_percentages = percentages.clone();
+
+            (
+                rsx! {sorted.iter().rev().enumerate().map(|(i, (_, name))| {
+                    let p = percentages.get(name).unwrap_or(&0.0);
+                    let x = format!("{:3.1}%", &p);
+                    let color = colors.get(name);
+
+                    if let Some(color) = color {
+                        let color = color.color.clone();
+                        let color = color.unwrap_or("white".to_string());
+
+                        return rsx!(Bar {
+                            name: name.to_owned(),
+                            key: "{i}-bar",
+                            width: *p,
+                            color: color
+                        });
+                    } else {
+                        return rsx!(div {
+                            key: "{i}-bar",
+                            class: "h-full transition-all duration-1000",
+                            width: "{x}",
+                        });
+                    }
+                })},
+                rsx! { cloned.iter().rev().enumerate().map(|(i, (_, name))| {
+                    let p = cloned_percentages.get(name).unwrap_or(&0.0);
+                    let percentage = format!("{:3.1}%", p);
+                    let color = colors.get(name);
+                    if p > &&0.05 {
+                        if let Some(color) = color {
+                            let color = color.color.clone();
+                            rsx!(Blip {
+                                key: "{i}-blip",
+                                name: name.to_owned(),
+                                percentage: percentage,
+                                color: color.unwrap_or("white".to_string())
+                            })
+                        } else {
+                            rsx!(Blip {
+                                key: "{i}-blip",
+                                name: name.to_owned(),
+                                color: "white".to_string()
+                            })
+                        }
+                    } else {
+                        rsx!(div { key: "{i}-blip" })
+                    }
+                })},
+            )
+        } else {
+            (
+                rsx! { (0..10).map(|i| rsx! { Bar { name: "".to_owned(), key: "{i}-bar", width: 100.0} }) },
+                rsx! { (0..10).map(|i| rsx!{ Blip { key: "{i}-blip" }}) },
+            )
+        }
+    };
+
+    let (bar_contents, footer_contents) = contents;
+
+    return {
+        cx.render(rsx! {
             div {
                 div {
-                    class: "w-full h-4 bg-dim rounded-full mb-4 skeleton"
-
+                    class: "w-full h-4 skeleton rounded-full mb-4 flex overflow-hidden opacity-95",
+                    bar_contents
                 }
                 footer {
                     class: "flex justify-start flex-wrap text-dim",
-                    Blip { }
-                    Blip {  }
-                    Blip {  }
-                    Blip {  }
-                    Blip {  }
-                    Blip {  }
-                    Blip {  }
-                    Blip {  }
-                    Blip {  }
-                    Blip {  }
+                    footer_contents
                 }
             }
-        });
-    } else {
-        let languages = languages.current();
-        let (languages, total_bytes) = languages.as_ref().as_ref().unwrap().clone();
-        let colors = colors.current().as_ref().as_ref().unwrap().clone();
-        let mut percentages: HashMap<String, f64> = HashMap::new();
-
-        for (language, bytes) in languages {
-            let total_bytes: f64 = total_bytes as f64;
-            let bytes: f64 = bytes as f64;
-            percentages.insert(language, 100.0 / total_bytes * bytes);
-        }
-
-        let sorted: BTreeMap<i64, String> = percentages
-            .iter()
-            // multiply so that close numbers when rounded don't conflict
-            .map(|(k, v)| ((v.to_owned() * 100000.0) as i64, k.to_owned()))
-            .collect();
-
-        return {
-            cx.render(rsx! {
-                div {
-                    div {
-                        class: "w-full h-4 bg-dim rounded-full mb-4 flex overflow-hidden opacity-95",
-                        sorted.iter().rev().map(|(_, name)| {
-                            let p = percentages.get(name).unwrap();
-                            let x = format!("{:3.1}%", p);
-                            let cloned = colors.clone();
-                            let color = cloned.get(name);
-
-                            if let Some(color) = color {
-                                let color = color.color.clone();
-                                let color = color.unwrap_or("white".to_string());
-
-                                   return rsx!(
-                                        div {
-                                            key: "{name}",
-                                            class: "h-full transition transform hover:opacity-50 cursor-pointer",
-                                            width: "{x}",
-                                            background_color: "{color}"
-                                        }
-                                    );
-                            } else {
-                                return rsx!(  div {
-                                            key: "{name}",
-                                            class: "h-full",
-                                            width: "{x}",
-                                        });
-                            }
-
-                         
-                        })
-                    }
-                    footer {
-                        class: "flex justify-start flex-wrap text-dim",
-                         sorted.iter().rev().map(|(_, name)| {
-                            let p = percentages.get(name).unwrap();
-                            let percentage = format!("{:3.1}%", p);
-                            let cloned = colors.clone();
-                            let color = cloned.get(name);
-                            if p > &0.05 {
-                                if let Some(color) = color {
-                                    let color = color.color.clone();
-                                    rsx!(
-                                        Blip { key: "{name}-blip", name: name.to_owned(), percentage: percentage, color: color.unwrap_or("white".to_string()) }
-                                    )
-                                } else {
-                                    rsx!(
-                                        Blip { key: "{name}-blip", name: name.to_owned(), color: "white".to_string() }
-                                    )
-                                }
-                            } else {
-                                rsx!(div{ key: "{name}-blip" })
-                            }
-                        })
-                    }
-                }
-            })
-        };
-    }
+        })
+    };
 }

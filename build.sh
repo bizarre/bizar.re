@@ -1,0 +1,1 @@
+./build-prod-styles.sh && trunk build --release && ./build-dev-styles.sh

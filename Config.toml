@@ -3,5 +3,6 @@ pseudonym = "bizarre"
 headline = "Human in Vancouver."
 
 [programming]
-bio = "Interested in learning more about scale, robotics & anything low-level. All in all just a dude who likes to write code & build cool shit."
+bio = "hi, my name is alex. i like to write code & build cool stuff."
 github = "bizarre"
+github_repos = ["bizarre/rift", "bizarre/notion-github-embed"]

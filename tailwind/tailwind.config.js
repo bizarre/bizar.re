@@ -20,17 +20,21 @@ module.exports = {
       "slate-dim": "#222222",
       "moss": "#5B7860",
       "moss-dim": "#1D261F",
+      "moss-dark": "#080A08",
       "ice": "#556978",
       "ice-dim": "#1B2226",
       "tint": "#484848",
       "dim": "#707070",
       "dark": "#484848",
+      "sponge": "#777855"
     }},
   },
   variants: {
     extend: {
       zIndex: ["hover"],
       outline: ["hover"],
+      transitionDuration: ['hover'],
+      transitionDelay: ['hover'],
     },
   },
   plugins: [],

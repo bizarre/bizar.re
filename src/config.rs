@@ -3,6 +3,7 @@ use proc_macro::inject_from_file;
 pub struct ProgrammingConfig {
     pub bio: &'static str,
     pub github: &'static str,
+    pub github_repos: &'static [&'static str],
 }
 
 #[inject_from_file(path = "Config.toml")]

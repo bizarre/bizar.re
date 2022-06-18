@@ -11,7 +11,7 @@ pub struct Props<'a> {
 pub fn DefaultLayout<'a>(cx: Scope<'a, Props<'a>>) -> Element {
     cx.render(rsx! {
         div {
-            class: "w-full p-16 flex justify-center",
+            class: "w-full p-12 flex justify-center",
             div {
                 class: "w-full flex flex-col items-center",
                 div {

@@ -2,7 +2,8 @@ use dioxus::{prelude::*, router::*};
 
 #[derive(PartialEq, Props)]
 pub struct Props<'a> {
-    subject: &'a str,
+    title: &'a str,
+    subtitle: &'a str,
     text: &'a str,
     span_class: Option<&'a str>,
 }
@@ -16,10 +17,10 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                 class: "mb-2",
                 h3 {
                     class: "text-xl text-dim",
-                    "About me "
+                    "{cx.props.title} "
                     span {
                         class: "{span_class}",
-                        "{cx.props.subject}"
+                        "{cx.props.subtitle}"
                     }
                 }
             }

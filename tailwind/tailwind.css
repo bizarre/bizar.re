@@ -33,3 +33,32 @@
         background-color: hsl(0, 0%, 10%);
     }
 }
+
+
+.skeleton-moss {
+    animation: skeleton-loading-moss 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading-moss {
+    0% {
+        background-color: hsl(120, 12%, 11%);
+    }
+
+    100% {
+        background-color: hsl(120, 12%, 5%);
+    }
+}
+
+.skeleton-moss-light {
+    animation: skeleton-loading-moss-light 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading-moss-light {
+    0% {
+        background-color: hsl(120, 12%, 18%);
+    }
+
+    100% {
+        background-color: hsl(120, 12%, 10%);
+    }
+}
