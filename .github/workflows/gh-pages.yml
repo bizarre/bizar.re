@@ -15,7 +15,7 @@ jobs:
       - name: Build styles
         run: ./build-prod-styles.sh
       - name: Write token
-        run: echo "$WEBSITE_GITHUB_TOKEN" >> .env
+        run: echo "WEBSITE_GITHUB_TOKEN=$WEBSITE_GITHUB_TOKEN" >> .env
       - uses: actions-rs/toolchain@v1
         with:
           profile: minimal
