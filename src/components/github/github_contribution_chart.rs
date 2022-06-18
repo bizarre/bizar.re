@@ -40,9 +40,6 @@ impl Colorable for i64 {
 }
 
 pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
-    let route = use_route(&cx);
-    let url = route.url();
-
     let current_time = Utc::now().naive_local().date();
     let username = cx.props.github_username.to_owned();
     let chart_data = use_state(&cx, || {
@@ -196,15 +193,35 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                 class: "grid w-full gap-0.5 relative",
                 style: "grid-template-columns: repeat(52, minmax(0, 1fr));",
                 chart_contents
+                div {
+                        class: "absolute -left-0.5 top-0 -ml-8 hidden lg:grid lg:text-xs text-slate text-right h-full",
+                        style: "griw-row: span 7; grid-template-columns: repeat(1, minmax(0, 1fr)); grid-template-rows: repeat(7, minmax(0, 1fr));",
+                        vec!["Mon", "Wed", "Fri"].iter().enumerate().map(|(i, day)| { 
+                            let x = match (i) {
+                                0 => 1,
+                                1 => 3,
+                                2 => 5,
+                                _ => 0
+                            }; rsx!{
+                            div {
+                                key: "{day}",
+                                style: "grid-row: {x};",
+                                class: "mt-1 mb-px",
+                                label {
+                                    "{day}"
+                                }
+                            }
+                        }})
+                }
             }
             div {
-                class: "absolute left-0 -top-5 w-full",
+                class: "absolute left-0 -top-5 w-full hidden lg:block",
                 div {
-                    class: "grid gap-0.5 justify-items-end relative select-none cursor-default items-center",
+                    class: "grid gap-0.5 justify-items-end relative select-none cursor-default items-center relative",
                     style: "grid-template-columns: repeat(52, minmax(0, 1fr));",
                     div {
                         class: "relative",
-                        style: "grid-column: 1 / span 40; font-size: 0.25em;",
+                        style: "grid-column: span 40; font-size: 0.25em;",
                     }
                     div {
                         class: "text-slate text-xs mr-2",
@@ -230,20 +247,6 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                     }
                 }
             }
-            div {
-                class: "absolute -left-0.5 top-0 -ml-8 grid text-xs text-slate text-right",
-                style: "grid-template-columns: repeat(1, minmax(0, 1fr)); grid-template-rows: repeat(7, minmax(0, 1fr));",
-                vec!["Mon", "Wed", "Fri"].iter().map(|day| rsx!{
-                    div {
-                        key: "{day}",
-                        class: "mt-1 mb-px",
-                        label {
-                            "{day}"
-                        }
-                    }
-                })
-                }
-            
         }
     })
 }

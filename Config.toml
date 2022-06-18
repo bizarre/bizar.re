@@ -6,3 +6,8 @@ headline = "Human in Vancouver."
 bio = "hi, my name is alex. i like to write code & build cool stuff."
 github = "bizarre"
 github_repos = ["bizarre/rift", "bizarre/notion-github-embed"]
+
+[social]
+twitter = "bizurre"
+linkedin = "alexadewole"
+github = "bizarre"

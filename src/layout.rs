@@ -11,12 +11,12 @@ pub struct Props<'a> {
 pub fn DefaultLayout<'a>(cx: Scope<'a, Props<'a>>) -> Element {
     cx.render(rsx! {
         div {
-            class: "w-full p-12 flex justify-center",
+            class: "w-full p-6 lg:p-12 flex justify-center",
             div {
                 class: "w-full flex flex-col items-center",
                 div {
-                    class: "w-500",
-                     Header { name: config.name, pseudonym: config.pseudonym, headline: config.headline }
+                    class: "w-full lg:w-500",
+                     Header { name: config.name, pseudonym: config.pseudonym, headline: config.headline, social: &config.social }
                 }
                
                 &cx.props.children

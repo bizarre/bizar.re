@@ -52,7 +52,7 @@ pub fn page(cx: Scope) -> Element {
 
     cx.render(rsx!(
         div {
-            class: "w-500",
+            class: "w-full lg:w-500",
           AboutSection { title: "About me", subtitle: "", text: programming.bio, span_class: "text-moss-dim" }
           div {
             class: "mt-4",

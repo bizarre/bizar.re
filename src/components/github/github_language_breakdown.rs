@@ -121,7 +121,7 @@ fn Blip(cx: Scope<BlipProps>) -> Element {
 
     cx.render(rsx! {
         div {
-            class: "w-1/5 mb-2 flex select-none transition-all",
+            class: "w-1/3 md:w-1/5 mb-2 flex select-none transition-all",
             dot
             label {
                 class: "w-8/12 text-xs leading-tight",

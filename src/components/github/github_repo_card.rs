@@ -183,7 +183,7 @@ pub(crate) fn component<'a>(
                         }
                     }})
                     p {
-                        class: "text-dark text-sm {value_class} transition",
+                        class: "text-dim text-sm {value_class} transition",
                         style: "line-height: 1rem;",
                         description
                     }
@@ -244,7 +244,7 @@ pub(crate) fn component<'a>(
                             class: "w-10 h-4 {skeleton_class} skeleton-moss absolute transition rounded"
                         }
                         label {
-                            class: "{value_class} transition text-dim text-xs duration-500",
+                            class: "{value_class} transition text-dark text-xs duration-500",
                             "{language}"
                         }
                     }

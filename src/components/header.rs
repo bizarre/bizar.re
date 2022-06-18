@@ -5,13 +5,15 @@ pub struct Props<'a> {
     name: &'a str,
     pseudonym: &'a str,
     headline: &'a str,
+    social: &'a crate::config::SocialConfig,
 }
 
 pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
     let segment = use_route(&cx).last_segment().unwrap();
 
-    let link_class = "transition hover:opacity-50 focus:opacity-50 text-2xl mr-2 ".to_owned();
-    let mut se_class = link_class.clone() + "text-moss";
+    let link_class = "text-xl lg:text-2xl mr-2 cursor-default ".to_owned();
+    let mut se_class = link_class.clone()
+        + "text-moss transition hover:opacity-50 focus:opacity-50 cursor-pointer    ";
     let mut p_class = link_class.clone() + "text-ice";
     let mut c_class = link_class.clone() + "text-sponge";
 
@@ -25,8 +27,10 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
 
     cx.render(rsx! {
         header {
-            class: "w-full flex justify-center text-white flex flex-col mb-8",
+            class: "w-full text-white flex mb-8 relative",
             div {
+                class: "flex flex-col justify-center",
+                            div {
                 class: "mb-3",
                 h1 {
                     class: "text-slate text-2xl font-semibold",
@@ -44,7 +48,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                 }
             }
             div {
-                class: "flex",
+                class: "flex flex-wrap",
                 Link {
                     to: "/"
                     h1 {
@@ -54,7 +58,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                 }
 
                 Link {
-                    to: "/photography"
+                    to: "/"
                     h2 {
                         class: "{p_class}",
                      "Photographer."
@@ -62,11 +66,22 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                 }
 
                 Link {
-                    to: "/cars"
+                    to: "/"
                     h2 {
                         class: "{c_class}",
                      "Likes Cars."
                     }
+                }
+            }
+
+            }
+            div {
+                class: "flex-1 absolute w-full",
+                ul {
+                    class: "flex-col flex lg:flex-row justify-end text-right w-full",
+                    vec!(("Twitter", "twitter.com/", cx.props.social.twitter), ("Linkedin", "linkedin.com/in/", cx.props.social.linkedin), ("GitHub", "github.com/", cx.props.social.github))
+                    .iter()
+                    .map(|(site, domain, username)| rsx! { li { a  { class: "text-slate underline text-xs transition hover:text-moss ml-2", href: "https://{domain}{username}", "{site}" } } })
                 }
             }
         }
