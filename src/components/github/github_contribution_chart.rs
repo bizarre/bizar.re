@@ -197,7 +197,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                         class: "absolute -left-0.5 top-0 -ml-8 hidden lg:grid lg:text-xs text-slate text-right h-full",
                         style: "griw-row: span 7; grid-template-columns: repeat(1, minmax(0, 1fr)); grid-template-rows: repeat(7, minmax(0, 1fr));",
                         vec!["Mon", "Wed", "Fri"].iter().enumerate().map(|(i, day)| { 
-                            let x = match (i) {
+                            let x = match i {
                                 0 => 1,
                                 1 => 3,
                                 2 => 5,

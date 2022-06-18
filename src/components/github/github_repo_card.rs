@@ -185,6 +185,8 @@ pub(crate) fn component<'a>(
                             margin_top: "{margin_top}"
                         }
                     }})
+
+                    
                     p {
                         class: "text-dim text-sm {value_class} transition",
                         style: "line-height: 1rem;",

@@ -28,8 +28,41 @@ pub fn page(cx: Scope) -> Element {
         }
     });
 
-    let contributions_title = match total_contributions.get() {
-        Some(contributions) => cx.render(rsx! {
+    let contributions_title = {
+        let value_class = if total_contributions.get().is_some() {
+            "opacity-100"
+        } else {
+            "opacity-0"
+        };
+
+        let skeleton_class = if total_contributions.get().is_some() {
+            "opacity-0"
+        } else {
+            "opacity-100"
+        };
+
+        let contributions = if let Some(contributions) = total_contributions.get() {
+            contributions
+        } else {
+            &100
+        };
+
+        cx.render(rsx! {
+            div {
+            h1 {
+                class: "text-xl text-tint mb-4 flex items-center relative",
+                span {
+                    class: "w-7 h-5 skeleton mr-1 rounded {skeleton_class} absolute transition"
+                }
+                span {
+                    class: "text-dim mr-1 {value_class} transition",
+                    "{contributions}"
+                }
+                " contributions in the last year"
+            }
+            }
+        })
+        /* Some(contributions) => cx.render(rsx! {
              h1 {
                 class: "text-xl text-tint mb-4 flex items-center",
                 span {
@@ -47,7 +80,7 @@ pub fn page(cx: Scope) -> Element {
                 }
                 "contributions in the last year"
             }
-        }),
+        }),*/
     };
 
     cx.render(rsx!(
