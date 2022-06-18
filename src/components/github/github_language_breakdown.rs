@@ -9,7 +9,7 @@ use std::{
     panic,
 };
 
-static GITHUB_TOKEN: &'static str = dotenv!("WEBSITE_GITHUB_TOKEN");
+static GITHUB_TOKEN_ENCODED: &'static str = dotenv!("WEBSITE_GITHUB_TOKEN");
 
 #[derive(PartialEq, Props)]
 pub(crate) struct Props<'a> {
@@ -151,10 +151,12 @@ pub(crate) fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                 repo_query
             );
 
+            let decoded = base64::decode(&GITHUB_TOKEN_ENCODED).unwrap();
+            let decoded = std::str::from_utf8(&decoded).unwrap();
             let client = reqwest::Client::new();
             let resp = client
                 .post("https://api.github.com/graphql")
-                .bearer_auth(GITHUB_TOKEN)
+                .bearer_auth(decoded)
                 .body(body)
                 .send()
                 .await
@@ -163,7 +165,7 @@ pub(crate) fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                 .await
                 .unwrap();
 
-            let languages_map = resp.get_languages(username, GITHUB_TOKEN).await.unwrap();
+            let languages_map = resp.get_languages(username, decoded).await.unwrap();
             languages.set(Some(languages_map));
         }
     });

@@ -9,7 +9,7 @@ use std::{
     panic,
 };
 
-static GITHUB_TOKEN: &'static str = dotenv!("WEBSITE_GITHUB_TOKEN");
+static GITHUB_TOKEN_ENCODED: &'static str = dotenv!("WEBSITE_GITHUB_TOKEN");
 
 #[derive(Deserialize, PartialEq)]
 struct LanguageEdgeNode {
@@ -90,10 +90,13 @@ pub(crate) fn component<'a>(
             repo_query
         );
 
+        let decoded = base64::decode(&GITHUB_TOKEN_ENCODED).unwrap();
+        let decoded = std::str::from_utf8(&decoded).unwrap();
+
         let client = reqwest::Client::new();
         let resp = client
             .post("https://api.github.com/graphql")
-            .bearer_auth(GITHUB_TOKEN)
+            .bearer_auth(decoded)
             .body(body)
             .send()
             .await
