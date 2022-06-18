@@ -171,7 +171,7 @@ pub(crate) fn component<'a>(
                     (0..2).map(|i| {
                     let width = 100.0 - (i as f64 * 20.0);
                     let width_str = format!("{:3.1}%", width);
-                    let mut margin_top = format!("{}rem", i as f64*1.5);
+                    let mut margin_top = format!("{}rem", i as f64);
 
                     if i == 0 {
                         margin_top = "0.1rem".to_string();
@@ -180,16 +180,16 @@ pub(crate) fn component<'a>(
                     rsx!{
                         div {
                             key: "{i}",
-                            class: "h-4 skeleton-moss rounded transition duration-500 {skeleton_class} absolute",
+                            class: "h-3 skeleton-moss rounded transition duration-500 {skeleton_class} absolute",
                             width: "{width_str}",
                             margin_top: "{margin_top}"
                         }
                     }})
 
-                    
+
                     p {
-                        class: "text-dim text-sm {value_class} transition",
-                        style: "line-height: 1rem;",
+                        class: "text-dim text-xs {value_class} transition",
+                        style: "line-height: 0.75rem;",
                         description
                     }
                 }
@@ -229,10 +229,10 @@ pub(crate) fn component<'a>(
 
         rsx! {
             footer {
-                class: "ml-6 flex mt-6 items-center",
+                class: "ml-6 flex mt-2 items-center",
                 div {
                     class: "flex items-center",
-                    style: "line-height: 1rem;",
+                    style: "line-height: 0.75rem;",
                     div {
                         class: "relative mr-1.5",
                         div {
@@ -256,7 +256,7 @@ pub(crate) fn component<'a>(
                 }
                 div {
                     class: "flex items-center ml-2",
-                    style: "line-height: 1rem;",
+                    style: "line-height: 0.75rem;",
                     div {
                         class: "relative",
                         div {

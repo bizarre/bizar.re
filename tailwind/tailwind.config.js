@@ -8,6 +8,9 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      transitionProperty: {
+        'load': 'width, opacity',
+      },
       gridTemplateColumns: {
         '52': 'grid-template-columns: repeat(52, minmax(0, 1fr));'
       },

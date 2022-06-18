@@ -38,6 +38,7 @@ fn Bar(cx: Scope<BarProps>) -> Element {
 
     if *hovered.get() && !is_skeleton {
         width_str = if cx.props.width > 75.0 { width_str } else { "75%".to_string() };
+        more_classes = more_classes.to_owned() + " transition-all";
     } 
 
     let hover_text = {
@@ -50,7 +51,8 @@ fn Bar(cx: Scope<BarProps>) -> Element {
             onmouseover: move |_| { hovered.set(true)},
             onmouseout: move |_| { hovered.set(false)},
             width: "{width_str}",
-            class: "h-full transition-all duration-500 opacity-100 transform-gpu {more_classes} flex justify-center",
+            will_change: "width, opacity",
+            class: "h-full transition-load duration-500 opacity-100 transform-gpu {more_classes} flex justify-center",
             background_color: "{color}",
             hover_text
         }
@@ -243,7 +245,7 @@ pub(crate) fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
             )
         } else {
             (
-                rsx! { (0..10).map(|i| rsx! { Bar { name: "".to_owned(), key: "{i}-bar", width: 100.0} }) },
+                rsx! { (0..10).map(|i| rsx! { Bar { name: "".to_owned(), key: "{i}-bar", width: 0.0} }) },
                 rsx! { (0..10).map(|i| rsx!{ Blip { key: "{i}-blip" }}) },
             )
         }
