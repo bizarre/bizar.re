@@ -74,7 +74,7 @@ pub fn page(cx: Scope) -> Element {
             class: "mt-4 relative",
             GithubLanguageBreakdown { github_username: programming.github, colors: colors  }
             div {
-                class: "absolute right-0 -mr-8 top-0 h-4 select-none w-4 text-xs flex items-center justify-center rounded-full border-moss-dim border-2 text-slate cursor-pointer transition opacity-75 hover:opacity-100 duration-300",
+                class: "hidden lg:flex absolute right-0 -mr-8 top-0 h-4 select-none w-4 text-xs items-center justify-center rounded-full border-moss-dim border-2 text-slate cursor-pointer transition opacity-75 hover:opacity-100 duration-300",
                 onmouseover: move |_| { is_lang_tooltip_open.set(true)},
                 onmouseout: move |_| { is_lang_tooltip_open.set(false)},
                 span { "?" }
