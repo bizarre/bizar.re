@@ -4,12 +4,14 @@ use std::collections::HashMap;
 use crate::{
     components::{
         lib::Color, AboutSection, GithubContributionChart, GithubLanguageBreakdown, GithubRepoCard,
+        Tooltip,
     },
     config::{instance as config, Config},
 };
 
 pub fn page(cx: Scope) -> Element {
     let Config { programming, .. } = &config;
+    let is_lang_tooltip_open = use_state(&cx, || false);
     let total_contributions = use_state(&cx, || None as Option<i64>);
     let colors = use_state(&cx, || None as Option<HashMap<String, Color>>);
 
@@ -62,25 +64,6 @@ pub fn page(cx: Scope) -> Element {
             }
             }
         })
-        /* Some(contributions) => cx.render(rsx! {
-             h1 {
-                class: "text-xl text-tint mb-4 flex items-center",
-                span {
-                    class: "text-dim mr-1",
-                    "{contributions} "
-                }
-                " contributions in the last year"
-            }
-        }),
-        None => cx.render(rsx! {
-            h1 {
-                class: "text-xl text-tint mb-4 flex items-center",
-                span {
-                    class: "w-7 h-5 skeleton mr-1 rounded"
-                }
-                "contributions in the last year"
-            }
-        }),*/
     };
 
     cx.render(rsx!(
@@ -88,8 +71,29 @@ pub fn page(cx: Scope) -> Element {
             class: "w-full lg:w-500",
           AboutSection { title: "About me", subtitle: "", text: programming.bio, span_class: "text-moss-dim" }
           div {
-            class: "mt-4",
+            class: "mt-4 relative",
             GithubLanguageBreakdown { github_username: programming.github, colors: colors  }
+            div {
+                class: "absolute right-0 -mr-8 top-0 h-4 select-none w-4 text-xs flex items-center justify-center rounded-full border-moss-dim border-2 text-slate cursor-pointer transition opacity-75 hover:opacity-100 duration-300",
+                onmouseover: move |_| { is_lang_tooltip_open.set(true)},
+                onmouseout: move |_| { is_lang_tooltip_open.set(false)},
+                span { "?" }
+                Tooltip {
+                    is_open: *is_lang_tooltip_open.get(),
+                    rsx!{ p { 
+                        class: "text-dark",
+                        "The data here is fetched directly from GitHub (through their GraphQL API) in your browser."
+                     } 
+                     p {
+                        class: "text-dark mt-2",
+                        "This component only factors in data from public repositories I own (so there's no data here from private repos, forks, public repos I've contributed to, etc)."
+                     }
+                     p {
+                        class: "text-slate-dim mt-2",
+                        "p.s: if this component fails to load, it's probably due to GH rate-limiting my token :( check back later <3"
+                     } }
+                }
+            }
           }
           div {
             class: "mt-4 outline-moss outline-2 w-full",
