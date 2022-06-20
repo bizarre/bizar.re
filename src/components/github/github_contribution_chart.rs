@@ -40,6 +40,7 @@ impl Colorable for i64 {
 }
 
 pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
+    log::info!("hi");
     let current_time = Utc::now().naive_local().date();
     let username = cx.props.github_username.to_owned();
     let chart_data = use_state(&cx, || {
@@ -146,6 +147,8 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                                 let item = item.unwrap();
                                 let intensity = &item.intensity;
                                 let color = intensity.parse::<i64>().unwrap().get_color();
+                                let delay =((52 - week) + day) * 30;
+
                                 if intensity == "0" {
                                rsx! {
                                 div {
@@ -153,7 +156,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                                     class: "relative",
                                     div {
                                         background_color: "{color}",
-                                        class: "w-full rounded-sm transition-all duration-1000 delay-500 absolute",
+                                        class: "w-full rounded-sm transition-all delay-500 duration-1000 absolute",
                                         padding_bottom: "100%"
                                     }
                                     loading
@@ -166,8 +169,9 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                                     key: "{days}-box",
                                     class: "relative",
                                     div {
+                                        transition_delay: "{delay}ms",
                                         background_color: "{color}",
-                                        class: "w-full rounded-sm transition-all transform duration-1000 delay-500 hover:delay-75 hover:duration-150 cursor-pointer hover:opacity-50 hover:scale-110 absolute",
+                                        class: "w-full rounded-sm transition-all transform duration-1000 hover:delay-0 hover:duration-150 cursor-pointer hover:opacity-50 hover:scale-110 absolute",
                                         padding_bottom: "100%",
                                         box_shadow: "inset 0px 0px 0px 1px rgba(255,255,255,0.06)"
                                     }

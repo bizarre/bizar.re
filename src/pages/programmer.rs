@@ -54,10 +54,10 @@ pub fn page(cx: Scope) -> Element {
             h1 {
                 class: "text-xl text-tint mb-4 flex items-center relative",
                 span {
-                    class: "w-7 h-5 skeleton mr-1 rounded {skeleton_class} absolute transition"
+                    class: "w-7 h-5 skeleton mr-1 rounded {skeleton_class} absolute transition duration-500"
                 }
                 span {
-                    class: "text-dim mr-1 {value_class} transition",
+                    class: "text-dim mr-1 {value_class} transition duration-500",
                     "{contributions}"
                 }
                 " contributions in the last year"
