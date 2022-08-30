@@ -34,6 +34,7 @@ jobs:
       - run: |
           mkdir content && mkdir content/journal
           mkdir static/content && mkdir static/content/journal
+      - run: cargo check
       - run: ./trunk build --release
       - run: touch dist/.nojekyll
       - run: curl https://raw.githubusercontent.com/rafgraph/spa-github-pages/gh-pages/404.html -o dist/404.html
