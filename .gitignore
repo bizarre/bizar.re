@@ -1,2 +1,5 @@
 /target
 /dist
+/static/content/*
+.env
+/static/entries.json

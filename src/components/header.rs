@@ -13,9 +13,9 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
     let mut is_info_tooltip_open = use_state(&cx, || false);
     let segment = use_route(&cx).last_segment().unwrap();
 
-    let link_class = "text-xl lg:text-2xl mr-2 cursor-default ".to_owned();
+    let link_class = "text-xl mr-2 cursor-default ".to_owned();
     let mut se_class = link_class.clone()
-        + "text-moss transition hover:opacity-50 focus:opacity-50 cursor-pointer    ";
+        + "text-lavender transition hover:opacity-50 focus:opacity-50 cursor-pointer";
     let mut p_class = link_class.clone() + "text-ice";
     let mut c_class = link_class.clone() + "text-sponge";
 
@@ -45,7 +45,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                 }
             div {
                 h2 {
-                    class: "text-white text-2xl",
+                    class: "text-white text-xl",
                     "{cx.props.headline}"
                 }
             }
@@ -55,7 +55,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                     to: "/"
                     h1 {
                         class: "{se_class}",
-                        "Programmer."
+                        "nerd."
                     }
                 }
 
@@ -63,7 +63,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                     to: "/"
                     h2 {
                         class: "{p_class}",
-                     "Photographer."
+                     "photog."
                     }
                 }
 
@@ -71,27 +71,27 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                     to: "/"
                     h2 {
                         class: "{c_class}",
-                     "Car Enthusiast."
+                     "hoonigan."
                     }
                 }
             }
 
             }
             div {
-                class: "flex-1 absolute w-full",
+                class: "flex-1 absolute w-full flex items-center",
                 ul {
                     class: "flex-col flex lg:flex-row justify-end text-right w-full",
-                    vec!(("Twitter", "twitter.com/", cx.props.social.twitter), ("Linkedin", "linkedin.com/in/", cx.props.social.linkedin), ("GitHub", "github.com/", cx.props.social.github))
+                    vec!(("shit posts", "twitter.com/", cx.props.social.twitter), ("linkedin", "linkedin.com/in/", cx.props.social.linkedin), ("github", "github.com/", cx.props.social.github))
                     .iter()
-                    .map(|(site, domain, username)| rsx! { li { a  { class: "text-slate underline text-xs transition hover:text-moss ml-2", href: "https://{domain}{username}", "{site}" } } })
+                    .map(|(site, domain, username)| rsx! { li { a  { class: "text-slate underline text-xs transition hover:text-lavender ml-2", href: "https://{domain}{username}", "{site}" } } })
                 }
                 div {
-                    class: "hidden lg:flex h-4 w-4 -mr-8 top-0 mt-1 bg-yellow-500 rounded-full items-center justify-center text-black absolute right-0",
+                    class: "hidden lg:flex h-3 w-3 top-0 ml-4 mt-1 bg-lavender rounded-full items-center justify-center text-black text-xs relative",
                     onmouseover: move |_| { is_info_tooltip_open.set(true)},
                     onmouseout: move |_| { is_info_tooltip_open.set(false)},
                     "!"
                     div {
-                        class: "absolute w-full h-full bg-yellow-500 rounded-full animate-ping cursor-pointer"
+                        class: "absolute w-full h-full bg-lavender rounded-full animate-ping cursor-pointer"
                     }
 
                     Tooltip {
@@ -100,7 +100,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                         class: "ml-0 px-6 mt-12",
                         rsx!{
                             p {
-                                class: "text-yellow-600 text-xs",
+                                class: "text-lavender text-xs",
                                 "This site is under pretty heavy development. Expect some shit to break and/or be jank af. "
                                 br{}br{}
                                 "Written in Rust with "
@@ -125,8 +125,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                                     class: "underline",
                                     "Source code available on GitHub."
                                 }
-                                br{}
-                                span { class: "text-slate-dim", "^^^ its fuckin ass LMAOOOOOO"  }
+
                             }
                         }
                     }

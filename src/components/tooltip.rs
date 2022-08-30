@@ -22,7 +22,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
         "pointer-events-none"
     };
 
-    let class = cx.props.class.unwrap_or("bg-moss-dark ml-4");
+    let class = cx.props.class.unwrap_or("bg-cosmos ml-4");
 
     cx.render(rsx! {
         div {

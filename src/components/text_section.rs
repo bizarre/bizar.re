@@ -14,9 +14,9 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
     cx.render(rsx! {
         section {
             header {
-                class: "mb-2",
+                class: "mb-1",
                 h3 {
-                    class: "text-xl text-dim",
+                    class: "text-lg text-dim",
                     "{cx.props.title} "
                     span {
                         class: "{span_class}",
@@ -26,7 +26,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
             }
             article {
                 p {
-                    class: "text-slate",
+                    class: "text-slate text-sm",
                     "{cx.props.text}"
                 }
             }

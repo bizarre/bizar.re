@@ -1,7 +1,5 @@
 use dioxus::prelude::*;
 
-use crate::{components::Header, config::instance as config};
-
 #[derive(Props)]
 pub struct Props<'a> {
     children: Element<'a>,
@@ -13,12 +11,7 @@ pub fn DefaultLayout<'a>(cx: Scope<'a, Props<'a>>) -> Element {
         div {
             class: "w-full p-6 lg:p-12 flex justify-center",
             div {
-                class: "w-full flex flex-col items-center",
-                div {
-                    class: "w-full lg:w-500",
-                     Header { name: config.name, pseudonym: config.pseudonym, headline: config.headline, social: &config.social }
-                }
-               
+                class: "w-full lg:w-4/6 flex flex-col",
                 &cx.props.children
             }
         }

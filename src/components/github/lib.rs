@@ -90,8 +90,6 @@ impl RepoResponse {
             }
         }
 
-        log::info!("{:?}", languages);
-
         Some((languages, total_bytes))
     }
 }

@@ -89,7 +89,7 @@ fn Blip(cx: Scope<BlipProps>) -> Element {
         };
 
         cx.render(rsx! { div { class: "relative",
-            div { class: "absolute {text_opacity} transition-all duration-100", span { "{name} " } span { class: "text-dark block", "{percentage}" } }
+            div { class: "absolute {text_opacity} transition-all duration-100", span { "{name} " } span { class: "text-tint block", "{percentage}" } }
             div {
                 class: "skeleton h-3 w-5/6 rounded transition-all duration-150 {skeleton_opacity}"
             }

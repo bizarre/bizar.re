@@ -34,6 +34,20 @@
     }
 }
 
+.skeleton-super-light {
+    animation: skeleton-loading-super-light 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading-super-light {
+    0% {
+        background-color: hsl(0, 0%, 24%);
+    }
+
+    100% {
+        background-color: hsl(0, 0%, 14%);
+    }
+}
+
 
 .skeleton-moss {
     animation: skeleton-loading-moss 1s linear infinite alternate;
@@ -61,4 +75,37 @@
     100% {
         background-color: hsl(120, 12%, 10%);
     }
+}
+
+.skeleton-lavender {
+    animation: skeleton-loading-lavender 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading-lavender {
+    0% {
+        background-color: hsl(274, 12%, 11%);
+    }
+
+    100% {
+        background-color: hsl(274, 12%, 5%);
+    }
+}
+
+.skeleton-lavender-light {
+    animation: skeleton-loading-lavender-light 1s linear infinite alternate;
+}
+
+@keyframes skeleton-loading-lavender-light {
+    0% {
+        background-color: hsl(274, 12%, 18%);
+    }
+
+    100% {
+        background-color: hsl(274, 12%, 10%);
+    }
+}
+
+.backdrop-blur:hover {
+    backdrop-filter: blur(1px);
+    -webkit-backdrop-filter: blur(1px);
 }

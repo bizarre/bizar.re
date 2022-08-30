@@ -29,11 +29,11 @@ trait Colorable {
 impl Colorable for i64 {
     fn get_color(self) -> String {
         match self {
-            4 => "rgb(57, 211, 83)",
-            3 => "rgb(38, 166, 65)",
-            2 => "rgb(0, 109, 50)",
-            1 => "rgb(14, 68, 41)",
-            _ => "#151715",
+            4 => "#7D39D3",
+            3 => "#5E26A6",
+            2 => "#390081",
+            1 => "#2B0061",
+            _ => "#19171C",
         }
         .to_owned()
     }
@@ -188,7 +188,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
             }
         })}) };
 
-    let colors: Vec<String> = (0..4).map(|x| x.get_color()).collect();
+    let colors: Vec<String> = (0..5).map(|x| x.get_color()).collect();
 
     cx.render(rsx! {
         div {
@@ -210,7 +210,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                             div {
                                 key: "{day}",
                                 style: "grid-row: {x};",
-                                class: "mt-1 mb-px",
+                                class: "mt-1.5 mb-px",
                                 label {
                                     "{day}"
                                 }
@@ -225,7 +225,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                     style: "grid-template-columns: repeat(52, minmax(0, 1fr));",
                     div {
                         class: "relative",
-                        style: "grid-column: span 40; font-size: 0.25em;",
+                        style: "grid-column: span 39; font-size: 0.25em;",
                     }
                     div {
                         class: "text-slate text-xs mr-2",

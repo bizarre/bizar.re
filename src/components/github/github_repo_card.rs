@@ -133,7 +133,7 @@ pub(crate) fn component<'a>(
                 div {
                     class: "relative ml-6",
                     div {
-                        class: "w-full h-2/3 mt-1 skeleton-moss rounded-l transition duration-500 {skeleton_class} absolute"
+                        class: "w-full h-1/2 mt-1.5 skeleton rounded-l transition duration-500 {skeleton_class} absolute"
                     }
                     h1 {
                         class: "transition {value_class} text-lg text-slate delay-300 duration-500",
@@ -143,7 +143,7 @@ pub(crate) fn component<'a>(
                 div {
                     class: "relative",
                      div {
-                        class: "w-full h-2/3  mt-1 -ml-2 skeleton-moss-light rounded-r duration-500 transition {skeleton_class} absolute"
+                        class: "w-full h-1/2 mt-1.5 -ml-2 skeleton-light rounded-r duration-500 transition {skeleton_class} absolute"
                     }
                     h1 {
                         class: "transition {value_class} text-lg text-dim delay-300 duration-500",
@@ -160,7 +160,7 @@ pub(crate) fn component<'a>(
             rsx! { "{desc}" }
         } else {
             // lol this is so wack LMAO
-            rsx! { br {} br{} br{} }
+            rsx! { br {} br{} }
         };
 
         rsx! {
@@ -171,7 +171,7 @@ pub(crate) fn component<'a>(
                     (0..2).map(|i| {
                     let width = 100.0 - (i as f64 * 20.0);
                     let width_str = format!("{:3.1}%", width);
-                    let mut margin_top = format!("{}rem", i as f64);
+                    let mut margin_top = format!("{}rem", i as f64 * 0.75);
 
                     if i == 0 {
                         margin_top = "0.1rem".to_string();
@@ -180,7 +180,7 @@ pub(crate) fn component<'a>(
                     rsx!{
                         div {
                             key: "{i}",
-                            class: "h-3 skeleton-moss rounded transition duration-500 {skeleton_class} absolute",
+                            class: "h-2 skeleton rounded transition duration-500 {skeleton_class} absolute",
                             width: "{width_str}",
                             margin_top: "{margin_top}"
                         }
@@ -202,7 +202,7 @@ pub(crate) fn component<'a>(
             repo.languages
                 .edges
                 .first()
-                .map_or("Loading", |x| &x.node.name)
+                .map_or("Failed to load", |x| &x.node.name)
         } else {
             "Loading"
         };
@@ -231,77 +231,77 @@ pub(crate) fn component<'a>(
             footer {
                 class: "ml-6 flex mt-2 items-center",
                 div {
-                    class: "flex items-center",
-                    style: "line-height: 0.75rem;",
+                    style: "line-height: 0;",
+                    class: "flex",
                     div {
-                        class: "relative mr-1.5",
+                        class: "relative",
                         div {
-                            class: "w-3 h-3 {skeleton_class} skeleton-moss rounded-full absolute transition"
+                            class: "w-2 h-2 {skeleton_class} skeleton rounded-full absolute transition"
                         }
                         div {
                             background_color: "{color}",
-                            class: "w-3 h-3 {value_class} rounded-full transition-all duration-500"
+                            class: "w-2 h-2 {value_class} rounded-full transition-all duration-500 mt-1"
                         }
                     }
                     div {
                         class: "relative",
                         div {
-                            class: "w-10 h-4 {skeleton_class} skeleton-moss absolute transition rounded"
+                            class: "w-12 h-2 {skeleton_class} skeleton absolute transition rounded ml-1"
                         }
                         label {
-                            class: "{value_class} transition text-dark text-xs duration-500",
+                            class: "{value_class} transition text-tint text-xs duration-500 ml-1",
                             "{language}"
                         }
                     }
                 }
                 div {
-                    class: "flex items-center ml-2",
-                    style: "line-height: 0.75rem;",
+                    class: "flex ml-2",
+                    style: "line-height: 0",
                     div {
                         class: "relative",
                         div {
-                            class: "w-3 h-3 {skeleton_class} skeleton-moss rounded-full absolute transition"
+                            class: "w-2 h-2 {skeleton_class} skeleton rounded-full absolute transition ml-1"
                         }
                         object {
-                            class: "{value_class} transition",
+                            class: "{value_class} transition mt-0.5",
                             data:"/static/svg/star.svg",
-                            max_height: "16px",
-                            max_width: "16px"
+                            max_height: "0.75rem",
+                            max_width: "0.75rem"
                         }
                     }
                     div {
                         class: "relative",
                         div {
-                            class: "w-5 h-4 {skeleton_class} skeleton-moss absolute transition rounded"
+                            class: "w-5 h-2 {skeleton_class} skeleton absolute transition rounded ml-1"
                         }
                         label {
-                            class: "{value_class} transition text-dark text-xs duration-500",
+                            class: "{value_class} transition text-tint text-xs duration-500",
                             "{stars}"
                         }
                     }
                 }
-                 div {
-                    class: "flex items-center ml-2",
-                    style: "line-height: 1rem;",
+                div {
+                    class: "flex ml-2",
+                    style: "line-height: 0;",
                     div {
                         class: "relative",
                         div {
-                            class: "w-3 h-3 ml-4 {skeleton_class} skeleton-moss rounded-full absolute transition"
+                            class: "w-2 h-2 {skeleton_class} skeleton rounded-full absolute transition ml-4"
                         }
                         object {
-                            class: "{value_class} transition",
+                            class: "{value_class} transition mt-0.5",
                             data:"/static/svg/branch.svg",
-                            max_height: "16px",
-                            max_width: "16px"
+                            max_height: "0.75rem",
+                            max_width: "0.75rem"
                         }
                     }
                     div {
                         class: "relative",
                         div {
-                            class: "w-5 h-4 ml-4 {skeleton_class} skeleton-moss absolute transition rounded"
+                            class: "w-5 h-2 {skeleton_class} skeleton absolute transition rounded ml-4"
                         }
                         label {
-                            class: "{value_class} transition text-dark text-xs duration-500",
+                            class: "{value_class} transition text-tint text-xs duration-500",
                             "{forks}"
                         }
                     }
@@ -310,7 +310,8 @@ pub(crate) fn component<'a>(
         }
     };
 
-    let mut container_class = "transition transform-gpu hover:scale-105 cursor-pointer";
+    let mut container_class =
+        "transition transform-gpu hover:scale-102 hover:opacity-75 cursor-pointer";
     if repo.is_none() {
         container_class = "";
     }
@@ -319,7 +320,7 @@ pub(crate) fn component<'a>(
 
     cx.render(rsx! {
         a {
-            class: "block bg-moss-dark w-full p-4 rounded-lg {container_class} mt-4 pr-10 pb-6",
+            class: "block w-full rounded-lg {container_class} mt-2 pr-10 pb-3",
             href: "{href}",
             target: "_blank",
             name_content
