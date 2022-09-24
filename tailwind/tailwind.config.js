@@ -12,6 +12,30 @@ module.exports = {
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
+      typography(theme) {
+        return {
+          DEFAULT: {
+            // and this is for prose-sm.
+            css: {
+              color: theme("colors.dim"), // change global color scheme
+              code: {
+                color: theme("colors.tint"),
+              },
+              "h1, h2, h3, h4": {
+                color: theme("colors.slate"),
+              },
+              a: {
+                // change anchor color and on hover
+                color: theme("colors.lavender"),
+                "&:hover": {
+                  // could be any. It's like extending css selector
+                  color: theme("colors.lavende-dark"),
+                },
+              },
+            },
+          },
+        };
+      },
       scale: {
         102: "1.02",
       },
@@ -51,5 +75,5 @@ module.exports = {
       transitionDelay: ["hover"],
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };

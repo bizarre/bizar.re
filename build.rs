@@ -1,9 +1,6 @@
 use std::{collections::HashMap, fs, io};
 
 fn main() -> io::Result<()> {
-    println!("cargo:rerun-if-changed=content/journal");
-    println!("cargo:rerun-if-changed=build.rs");
-
     let entries = plot_journal_entries().expect("failed to plot journal entries");
 
     serde_json::to_writer(&fs::File::create("static/entries.json")?, &entries).unwrap();
@@ -49,6 +46,11 @@ fn plot_journal_entries() -> io::Result<Vec<HashMap<String, String>>> {
                             markdown::Span::Text(text) => {
                                 let mut cp = preview.unwrap_or(String::new());
                                 cp = cp + "\n" + &text;
+                                preview = Some(cp)
+                            }
+                            markdown::Span::Link(text, _, _) => {
+                                let mut cp = preview.unwrap_or(String::new());
+                                cp = cp + &text;
                                 preview = Some(cp)
                             }
                             _ => {}

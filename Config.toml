@@ -5,7 +5,7 @@ headline = "_______ in vancouver."
 [programming]
 bio = "started programming when i was like 10 cuz my dad wouldnt buy me the robux i needed to get my roblox dude some sneakers so i learned lua and wrote them fuckers in."
 github = "bizarre"
-github_repos = ["bizarre/rift", "bizarre/notion-github-embed"]
+github_repos = ["bizarre/rift", "bizarre/notion-github-embed", "bizarre/shipyard"]
 
 [social]
 twitter = "bizurre"

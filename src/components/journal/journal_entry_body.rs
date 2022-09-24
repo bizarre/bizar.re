@@ -81,7 +81,7 @@ pub fn component<'a>(cx: Scope<'a, Props>) -> Element {
                 let entry = entry.clone().unwrap();
                 rsx!(
                     div {
-                        class: "prose prose-sm",
+                        class: "prose prose-sm prose-stone",
                         style: "max-width: inherit;",
                         dangerous_inner_html: "{entry.body}",
                     }

@@ -189,7 +189,7 @@ pub(crate) fn component<'a>(
 
                     p {
                         class: "text-dim text-xs {value_class} transition",
-                        style: "line-height: 0.75rem;",
+                        style: "line-height: 1rem;",
                         description
                     }
                 }
@@ -320,7 +320,7 @@ pub(crate) fn component<'a>(
 
     cx.render(rsx! {
         a {
-            class: "block w-full rounded-lg {container_class} mt-2 pr-10 pb-3",
+            class: "block w-full rounded-lg {container_class} mt-2 pr-10 pb-3 last:pb-0",
             href: "{href}",
             target: "_blank",
             name_content

@@ -109,3 +109,20 @@
     backdrop-filter: blur(1px);
     -webkit-backdrop-filter: blur(1px);
 }
+
+.prose img {
+    margin-bottom: 0;
+    width: 100%;
+}
+
+.prose img + img {
+    margin-top: 0;
+}
+
+.prose img + em {
+    width: 100%;
+    text-align: center;
+    opacity: 0.66;
+    font-size: 0.7rem;
+    display: block;
+}

@@ -11,7 +11,7 @@ pub fn DefaultLayout<'a>(cx: Scope<'a, Props<'a>>) -> Element {
         div {
             class: "w-full p-6 lg:p-12 flex justify-center",
             div {
-                class: "w-full lg:w-4/6 flex flex-col",
+                class: "w-full lg:w-4/6 2xl:w-1/2 flex flex-col",
                 &cx.props.children
             }
         }

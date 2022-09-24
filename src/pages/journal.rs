@@ -98,9 +98,9 @@ pub fn page(cx: Scope) -> Element {
             div {
                 class: "w-full flex items-center flex-col max-w-prose relative",
                 div {
-                    class: "absolute w-4 h-4 text-red-900 left-0 font-medium transition hover:opacity-75 cursor-pointer select-none",
+                    class: "absolute text-red-900 left-0 font-medium transition hover:opacity-75 cursor-pointer select-none",
                     onclick: |_| router.push_route("/", None, None),
-                    "[X]"
+                    "[back 2 home]"
                 }
                 JournalEntryHeader { entry: entry.clone() }
                 JournalEntryBody { entry: entry.clone() }
