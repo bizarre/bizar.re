@@ -51,17 +51,17 @@ pub fn page(cx: Scope) -> Element {
 
         cx.render(rsx! {
             div {
-            h1 {
-                class: "text-lg text-tint mb-4 flex items-center relative",
-                span {
-                    class: "w-7 h-5 skeleton mr-1 rounded {skeleton_class} absolute transition duration-500"
+                h1 {
+                    class: "text-lg text-tint mb-1.5 flex items-center relative",
+                    span {
+                        class: "w-7 h-5 skeleton mr-1 rounded {skeleton_class} absolute transition duration-500"
+                    }
+                    span {
+                        class: "text-dim mr-1 {value_class} transition duration-500",
+                        "{contributions}"
+                    }
+                    " contributions in the last year"
                 }
-                span {
-                    class: "text-dim mr-1 {value_class} transition duration-500",
-                    "{contributions}"
-                }
-                " contributions in the last year"
-            }
             }
         })
     };
@@ -104,12 +104,12 @@ pub fn page(cx: Scope) -> Element {
                 }
             }
             div {
-                class: "mt-4 outline-moss outline-2 w-full",
+                class: "mt-2 outline-moss w-full",
                 contributions_title
                 GithubContributionChart { github_username: programming.github, contributions: total_contributions }
             }
             div {
-                class: "mt-6",
+                class: "mt-4",
                 programming.github_repos.iter().map(|repo| rsx! {
                     GithubRepoCard {
                         key: "{repo}",

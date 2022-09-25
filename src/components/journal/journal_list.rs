@@ -53,16 +53,17 @@ fn EntryStub(cx: Scope, entry: JournalEntry) -> Element {
                         "🤓📖"
                     }
                 }
-                label {
-                    class: "absolute right-0 text-slate-dim text-xs cursor-pointer group-hover:opacity-75 transition ",
-                    "{entry.date}"
-                }
+
                 h1 {
-                    class: "text-slate font-medium select-none flex group-hover:opacity-75 transition",
+                    class: "text-slate font-medium select-none flex group-hover:opacity-75 transition flex items-center w-full",
                     "{entry.title}"
                     h2 {
                         class: "ml-1 text-slate-dim",
                         "{entry.subtitle}"
+                    }
+                    label {
+                        class: "text-slate-dim text-xs cursor-pointer group-hover:opacity-75 transition ml-auto",
+                        "{entry.date}"
                     }
                 }
                 p {
@@ -100,7 +101,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
 
     cx.render(rsx! {
         section {
-            class: "flex flex-col w-full",
+            class: "flex flex-col w-full mt-6 lg:mt-0",
             manifest.is_none().then(|| rsx! { (0..3).map(|i| rsx! {
                 SkeletonStub {  }
             })})

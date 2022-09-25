@@ -29,7 +29,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
 
     cx.render(rsx! {
         header {
-            class: "w-full text-white flex mb-8 relative",
+            class: "w-full text-white flex mb-6 relative",
             div {
                 class: "flex flex-col justify-center",
                 div {

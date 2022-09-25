@@ -94,7 +94,7 @@ pub fn page(cx: Scope) -> Element {
 
     if let Ok(entry) = journal_entry.get() {
         cx.render(rsx!(div {
-            class: "w-full flex items-center flex-col mt-4",
+            class: "w-full flex items-center flex-col mt-4 pb-12",
             div {
                 class: "w-full flex items-center flex-col max-w-prose relative",
                 div {

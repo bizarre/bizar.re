@@ -320,7 +320,7 @@ pub(crate) fn component<'a>(
 
     cx.render(rsx! {
         a {
-            class: "block w-full rounded-lg {container_class} mt-2 pr-10 pb-3 last:pb-0",
+            class: "block w-full rounded-lg {container_class} mt-2 first:mt-0 pr-10 pb-3 last:pb-0",
             href: "{href}",
             target: "_blank",
             name_content
