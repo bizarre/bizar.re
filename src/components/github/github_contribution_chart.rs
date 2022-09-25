@@ -117,15 +117,6 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                         let current = NaiveDate::from(end_of_current_week - Duration::days(days));
                         let formatted = current.format("%Y-%m-%d").to_string();
                         let data = chart_data.get().as_ref(); 
-
-                        let loading_opacity = if data.is_some() { "opacity-0" } else { "opacity-100" };
-                        let loading = rsx!{
-                            div {
-                              class: "absolute w-full rounded-sm skeleton duration-500 transition-all {loading_opacity} pointer-events-none",  
-                              padding_bottom: "100%",
-                            }
-                        };
-
                             if data.is_none() || !data.unwrap().contains_key(&formatted) {
                                 let color = 0.get_color();
                                 rsx! {
@@ -135,11 +126,9 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                                         padding_bottom: "100%",
                                         div {
                                               background_color: "{color}",
-                                                class: "w-full rounded-sm transition-all transform duration-1000 delay-500 absolute",
+                                                class: "w-full rounded-sm transition-colors transform duration-1000 delay-500 absolute",
                                                 padding_bottom: "100%"
                                         }
-                                        loading
-                                        
                                     }
                                 }
                             } else {                      
@@ -156,12 +145,9 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                                     class: "relative",
                                     div {
                                         background_color: "{color}",
-                                        class: "w-full rounded-sm transition-all delay-500 duration-1000 absolute",
+                                        class: "w-full rounded-sm transition-colors delay-500 duration-1000 absolute",
                                         padding_bottom: "100%"
                                     }
-                                    loading
-                                    
-                                
                                 }}
                                 } else {
                                rsx! {
@@ -171,18 +157,15 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                                     div {
                                         transition_delay: "{delay}ms",
                                         background_color: "{color}",
-                                        class: "w-full rounded-sm transition-all transform duration-1000 hover:delay-0 hover:duration-150 cursor-pointer hover:opacity-50 hover:scale-110 absolute",
+                                        class: "w-full rounded-sm transition-colors transform duration-1000 hover:delay-0 hover:duration-150 cursor-pointer hover:opacity-50 hover:scale-110 absolute",
                                         padding_bottom: "100%",
                                         box_shadow: "inset 0px 0px 0px 1px rgba(255,255,255,0.06)"
                                     }
-                                    loading
-                                    
-                                    
+                                    }
                                 }
-                                }
-                                }
-
                             }
+
+                        }
                     })
                 }
             }
