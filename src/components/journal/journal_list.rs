@@ -45,7 +45,7 @@ fn EntryStub(cx: Scope, entry: JournalEntry) -> Element {
         Link {
             to: "{entry.link}",
             div {
-                class: "w-full relative mb-4 rounded group cursor-pointer text-sm transform transition hover:scale-102",
+                class: "w-full relative mb-4 rounded group cursor-pointer text-sm transform transition hover:scale-102 bg-black",
                 div {
                     class: "w-full opacity-0 group-hover:opacity-100 transition transition-500 absolute h-full rounded z-40 flex justify-center items-center backdrop-blur",
                     h1 {

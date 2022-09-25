@@ -97,7 +97,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                     Tooltip {
                         is_open: *is_info_tooltip_open.get(),
                         pointer_events: true,
-                        class: "ml-0 px-6 mt-12",
+                        class: "ml-0 px-6 mt-12 bg-black z-40",
                         rsx!{
                             p {
                                 class: "text-lavender text-xs",

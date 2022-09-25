@@ -26,7 +26,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
 
     cx.render(rsx! {
         div {
-            class: "hidden lg:block relative {opacity} transition delay-150 {pointer_events}",
+            class: "hidden lg:block relative {opacity} transition delay-150 {pointer_events} z-40",
             div {
                 class: "p-4 absolute top-0 rounded {class}",
                 width: "300px",
