@@ -6,6 +6,10 @@ pub struct ProgrammingConfig {
     pub github_repos: &'static [&'static str],
 }
 
+pub struct PhotographyConfig {
+    pub bio: &'static str,
+}
+
 #[derive(PartialEq)]
 pub struct SocialConfig {
     pub twitter: &'static str,
@@ -20,4 +24,5 @@ pub struct Config {
     pub headline: &'static str,
     pub programming: ProgrammingConfig,
     pub social: SocialConfig,
+    pub photography: PhotographyConfig,
 }

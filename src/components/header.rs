@@ -16,7 +16,8 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
     let link_class = "text-xl mr-2 cursor-default ".to_owned();
     let mut se_class = link_class.clone()
         + "text-lavender transition hover:opacity-50 focus:opacity-50 cursor-pointer";
-    let mut p_class = link_class.clone() + "text-ice";
+    let mut p_class =
+        link_class.clone() + "text-ice transition hover:opacity-50 focus:opacity-50 cursor-pointer";
     let mut c_class = link_class.clone() + "text-sponge";
 
     if segment == "" {
@@ -60,7 +61,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
                 }
 
                 Link {
-                    to: "/"
+                    to: "/photography"
                     h2 {
                         class: "{p_class}",
                      "photog."

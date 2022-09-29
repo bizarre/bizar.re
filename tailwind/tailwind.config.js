@@ -1,5 +1,5 @@
 module.exports = {
-  purge: {
+  content: {
     enabled: process.env.NODE_ENV === "production",
     mode: "all",
     // source_code represents the rust (yew?) source code root
