@@ -101,7 +101,7 @@ pub fn component<'a>(cx: Scope<'a, Props<'a>>) -> Element {
 
     cx.render(rsx! {
         section {
-            class: "flex flex-col w-full mt-6 lg:mt-0 pb-12 lg:pb-0",
+            class: "flex flex-col w-full mt-4 lg:mt-0 pb-12 lg:pb-0",
             manifest.is_none().then(|| rsx! { (0..3).map(|_| rsx! {
                 SkeletonStub {  }
             })})

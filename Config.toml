@@ -7,6 +7,9 @@ bio = "started programming when i was like 10 cuz my dad wouldnt buy me the robu
 github = "bizarre"
 github_repos = ["bizarre/rift", "bizarre/notion-github-embed", "bizarre/shipyard"]
 
+[photography]
+bio = "i take pics of shit you probably wouldn't even glance twice at. sometimes i snap a portrait or do some landscape stuff, but usually if i'm out taking pics i'm in THE STREETS trying to capture the beauty in regular 'everyday' things."
+
 [social]
 twitter = "bizurre"
 linkedin = "alexadewole"

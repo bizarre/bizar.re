@@ -1,5 +1,5 @@
 module.exports = {
-  purge: {
+  content: {
     enabled: process.env.NODE_ENV === "production",
     mode: "all",
     // source_code represents the rust (yew?) source code root
@@ -38,6 +38,7 @@ module.exports = {
       },
       scale: {
         102: "1.02",
+        101: "1.01",
       },
       transitionProperty: {
         load: "width, opacity",
