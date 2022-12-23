@@ -8,7 +8,7 @@ release = false
 # The output dir for all final assets.
 dist = "dist"
 # The public URL from which assets are to be served.
-public_url = "/"
+public_url = "/bizar.re/"
 # Whether to include hash values in the output file names.
 filehash = true
 
